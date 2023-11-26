@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#textbox, #winlosstie, #score-container, #left, #right {
+    padding: 10px;
+}
+
+#score-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#left, #right {
+    display: flex;
+    flex-direction:row;
+    text-align: center;
+}
+
+#replay-button {
+    height: 150px; 
+    width: 250px;
+    margin: 20px;
+    background-color: blue;
+    color: antiquewhite;
+    font-size: 34px;
+}

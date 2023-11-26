@@ -1,15 +1,45 @@
+//Dev note: Still encountering issue when replay button is hit, it starts the first round with no
+//answer from user, thus only having 4 rounds instead of 5.
+//id "textbox" is also not resetting with reset(). 
 let playerSelection;
 let computerSelection;
 let compWin = 0;
 let playerWin = 0;
+let rounds = 0;
 
-for (let i = 0; i < 5; i++) {
+
+//DOM Manipulation to make buttons responsive
+const buttons = document.querySelectorAll(".btns");
+const replay = document.getElementById("replay-button");
+
+document.getElementById("replay-button").style.visibility = 'hidden';
+replay.addEventListener('click', () => {
+    reset();
+});
+
+document.getElementById("rock").value = "rock";
+document.getElementById("paper").value = "paper";
+document.getElementById("scissors").value = "scissors";
+    
+buttons.forEach((button) => {
+button.addEventListener('click', () => {
+    let x = button.value;
+    playerSelection = x;
+
     game();
-    score();
-}
+    score(); 
+    rounds++;
+        
+    if(rounds === 5)
+    {
+        winner();
+        rounds = 0;
+        document.getElementById("replay-button").style.visibility ='visible';
+    } 
+    });        
+});       
 
-winner();
-
+//Generates a random number and assigns a value of RPS accordingly
 function getComputerChoice() {
     let choice;
     choice = Math.floor(Math.random() * 3);
@@ -25,82 +55,96 @@ function getComputerChoice() {
     }
 }
 
+//switch case function to determine winner
 function playRound(computerSelection, playerSelection) {
-    console.log("The computer chose " + computerSelection + ".");
+    document.getElementById("textbox").innerText = "The computer chose " + computerSelection + ".";
     
     switch(playerSelection) {
         case 'rock':
             if(computerSelection == 'paper') {
-                console.log("Paper beats Rock. You lose!");
+                document.getElementById("wintieloss").innerText = "you lose!";
                 compWin++;
             }
 
             else if(computerSelection == 'scissors') {
-                console.log("Rock beats Scissors. You win!");
+                document.getElementById("wintieloss").innerText = "You win!";               
                 playerWin++;
             }
 
             else {
-                console.log("It's a tie!");
+                document.getElementById("wintieloss").innerText = "it's a tie!";
             }
             break;
 
         case 'paper':  
             if(computerSelection == 'scissors') {
-                console.log("Scissors beats Paper. You lose!");
+                document.getElementById("wintieloss").innerText = "You lose!";
                 compWin++;
             }
 
             else if(computerSelection == 'rock') {
-                console.log("Paper beats Rock. You win!");
+                document.getElementById("wintieloss").innerText = "You win!";
                 playerWin++;
             }
 
             else {
-                console.log("It's a tie!");
+                document.getElementById("wintieloss").innerText = "it's a tie!";
             }
             break;
 
          case 'scissors':
             if(computerSelection == 'rock') {
-                console.log("Rock beats Scissors. You lose!");
+                document.getElementById("wintieloss").innerText = "You lose!";                
                 compWin++;
             }
 
             else if(computerSelection == 'paper') {
-                console.log("Scissors beats Paper. You win!");
+                document.getElementById("wintieloss").innerText = "You win!";                
                 playerWin++;
             }
 
             else {
-                console.log("It's a tie!")
+                document.getElementById("wintieloss").innerText = "it's a tie!";
             }
             break;
     }
 }
 
-function game() {
-    let playerSelection = prompt("Rock, Paper or Scissors?");
-    playerSelection = playerSelection.toLowerCase();
+//initiates the game and plays a full round
+function game() { 
     let computerSelection = getComputerChoice();
     playRound(computerSelection, playerSelection);
 }
 
+//determines winner based off score of user
 function winner() {
     if(compWin > playerWin) {
-        console.log("Computer Wins!");
+        document.getElementById("textbox").innerText = "Computer wins, you lose!";
+        document.getElementById("wintieloss").innerText = "";
     }
 
     else if(playerWin > compWin) {
-        console.log("Player Wins!");
+        document.getElementById("textbox").innerText = "Congratulations, you win!";
+        document.getElementById("wintieloss").innerText = "";
     }
 
     else {
-        console.log("It's a TIE!");
-    }
+        document.getElementById("textbox").innerText = "it's a tie!";
+        document.getElementById("wintieloss").innerText = "";
+     }
 }
 
+//tracks and outputs score
 function score() {
-    console.log("Player's Points: " + playerWin);
-    console.log("Computer's Points: "+ compWin);
+    document.getElementById("player-score").innerText = playerWin;
+    document.getElementById("computer-score").innerText = compWin;
+}
+
+function reset() {
+    document.getElementById("textbox").innerText = "Choose your weapon!";
+    document.getElementById("winlosetie").innerText = "";
+    document.getElementById("replay-button").style.visibility = 'hidden';
+    compWin = 0;
+    playerWin = 0;
+    rounds = 0;
 }
