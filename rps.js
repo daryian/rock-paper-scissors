@@ -30,11 +30,11 @@ button.addEventListener('click', () => {
     score(); 
     rounds++;
         
-    if(rounds === 5)
+    if(rounds >= 5)
     {
         winner();
-        rounds = 0;
         document.getElementById("replay-button").style.visibility ='visible';
+        rounds = 0;
     } 
     });        
 });       
@@ -142,9 +142,12 @@ function score() {
 
 function reset() {
     document.getElementById("textbox").innerText = "Choose your weapon!";
-    document.getElementById("winlosetie").innerText = "";
+    document.getElementById("wintieloss").innerText = "";
     document.getElementById("replay-button").style.visibility = 'hidden';
     compWin = 0;
     playerWin = 0;
     rounds = 0;
+    document.getElementById('player-score').innerText = '0';
+    document.getElementById('computer-score').innerText = '0';
+ 
 }
